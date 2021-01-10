@@ -5,8 +5,6 @@ import axios from 'axios';
 
 function* getOrderList({storeId}) {
   let data = {};
-  console.log('ann13333');
-  console.log(storeId);
   const requestURL =
     '/rest/V1/orders?searchCriteria[filter_groups][0][filters][0][field]=store_id& searchCriteria[filter_groups][0][filters][0][value]=' +
     storeId +
@@ -19,8 +17,8 @@ function* getOrderList({storeId}) {
     })
     .then((res) => {
       if (res.status === 200) {
-        console.log('ann123');
-        console.log(res);
+        // console.log('ann123');
+        // console.log(res);
         data = res.data;
       }
     });

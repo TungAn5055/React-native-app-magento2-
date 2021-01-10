@@ -17,85 +17,37 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {actionGetListOrder} from '../store/app/appActions';
 import {makeSelectOrderListData} from '../store/app/appSelector';
-import {OrdersListScreen} from '../screens/OrdersListScreen';
 
 const Stack = createStackNavigator();
 
-const HomeScreen = ({navigation, getListOrder, orderListData}) => {
+const OrdersListScreen = () => {
   const theme = useTheme();
-  useEffect(() => {
-    getListOrder(45);
-  }, []);
-
-  console.log('orderData', orderListData);
 
   return (
     <ScrollView style={styles.container}>
-      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-      <View style={styles.sliderContainer}>
-        <Swiper
-          autoplay
-          horizontal={false}
-          height={200}
-          activeDotColor="#FF6347">
-          <View style={styles.slide}>
-            <Image
-              source={require('../../assets/banners/food-banner1.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}
-            />
-          </View>
-          <View style={styles.slide}>
-            <Image
-              source={require('../../assets/banners/food-banner2.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}
-            />
-          </View>
-          <View style={styles.slide}>
-            <Image
-              source={require('../../assets/banners/food-banner3.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}
-            />
-          </View>
-        </Swiper>
-      </View>
-
-      <View style={styles.categoryContainer}>
-        <TouchableOpacity
-          style={styles.categoryBtn}
-          onPress={() =>
-            navigation.navigate('OrdersListScreen', {title: 'Order List'})
-          }>
-          <View style={styles.categoryIcon}>
-            <Ionicons name="ios-restaurant" size={35} color="#FF6347" />
-          </View>
-          <Text style={styles.categoryBtnTxt}>List Orders</Text>
-        </TouchableOpacity>
-      </View>
+      <View style={styles.categoryContainer} />
     </ScrollView>
   );
 };
 
-HomeScreen.prototype = {
-  getListOrder: PropTypes.func,
-  orderListData: PropTypes.object,
+OrdersListScreen.prototype = {
+  // getListOrder: PropTypes.func,
+  // orderListData: PropTypes.object,
 };
 
-const mapStateToProps = createStructuredSelector({
-  orderListData: makeSelectOrderListData(),
-});
+// const mapStateToProps = createStructuredSelector({
+//     orderListData: makeSelectOrderListData(),
+// });
+//
+// export function mapDispatchToProps(dispatch) {
+//     return {
+//         getListOrder: (storeId) => {
+//             dispatch(actionGetListOrder(storeId));
+//         },
+//     };
+// }
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    getListOrder: (storeId) => {
-      dispatch(actionGetListOrder(storeId));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(null, null)(OrdersListScreen);
 
 const styles = StyleSheet.create({
   container: {

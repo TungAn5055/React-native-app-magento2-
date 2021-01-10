@@ -7,6 +7,7 @@ import HomeScreen from './HomeScreen';
 import {useTheme, Avatar} from 'react-native-paper';
 import {View} from 'react-native-animatable';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import OrdersListScreen from '../screens/OrdersListScreen';
 
 const HomeStack = createStackNavigator();
 
@@ -85,6 +86,14 @@ const HomeStackScreen = ({navigation}) => {
           ),
         }}
       />
+        <HomeStack.Screen
+            name="OrdersListScreen"
+            component={OrdersListScreen}
+            options={({route}) => ({
+                title: route.params.title,
+                headerBackTitleVisible: false
+            })}
+        />
     </HomeStack.Navigator>
   );
 };
