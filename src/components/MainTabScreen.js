@@ -33,7 +33,7 @@ const MainTabScreen = () => (
         tabBarLabel: 'OrderLists',
         tabBarColor: '#FF6347',
         tabBarIcon: ({color}) => (
-          <Ionicons name="ios-restaurant" size={26} color="#FF6347" />
+          <Ionicons name="ios-restaurant" size={26} color={color} />
         ),
       }}
     />
@@ -86,14 +86,35 @@ const HomeStackScreen = ({navigation}) => {
           ),
         }}
       />
-        <HomeStack.Screen
-            name="OrdersListScreen"
-            component={OrdersListScreen}
-            options={({route}) => ({
-                title: route.params.title,
-                headerBackTitleVisible: false
-            })}
-        />
+      <HomeStack.Screen
+        name="OrdersListScreen"
+        component={OrdersListScreen}
+        options={{
+          title: 'Mummum',
+          headerLeft: () => (
+            <View style={{marginLeft: 10}}>
+              <Icon.Button
+                name="ios-menu"
+                size={25}
+                color={colors.text}
+                backgroundColor={colors.background}
+                onPress={() => navigation.openDrawer()}
+              />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{flexDirection: 'row', marginRight: 10}}>
+              <Icon.Button
+                name="ios-search"
+                size={25}
+                color={colors.text}
+                backgroundColor={colors.background}
+                onPress={() => {}}
+              />
+            </View>
+          ),
+        }}
+      />
     </HomeStack.Navigator>
   );
 };
