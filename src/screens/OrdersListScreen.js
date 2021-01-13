@@ -4,8 +4,7 @@ import {
   Text,
   Image,
   StyleSheet,
-  StatusBar,
-  TouchableOpacity,
+  FlatList,
   ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -17,18 +16,32 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {actionGetListOrder} from '../store/app/appActions';
 import {makeSelectOrderListData} from '../store/app/appSelector';
+import OrderListItem from './OrderListItem';
 
 const Stack = createStackNavigator();
 
-const OrdersListScreen = ({orderListData}) => {
+const OrdersListScreen = ({orderListData, navigation}) => {
   const theme = useTheme();
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.categoryContainer} />
+      <FlatList
+        data={orderListData}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+        ListEmptyComponent={<Text> Order Lists is null </Text>}
+        // contentContainerStyle={[
+        //   styles.flatListConatiner,
+        //   orders.length === 0 && {flex: 1},
+        // ]}
+      />
     </ScrollView>
   );
 };
+
+const renderItem = ({ item }) => (
+  <OrderListItem item={item} navigation={navigation} />
+);
 
 OrdersListScreen.prototype = {
   orderListData: PropTypes.object,
@@ -46,7 +59,7 @@ const mapStateToProps = createStructuredSelector({
 //     };
 // }
 
-export default connect(null, mapStateToProps)(OrdersListScreen);
+export default connect(mapStateToProps, null)(OrdersListScreen);
 
 const styles = StyleSheet.create({
   container: {
