@@ -20,7 +20,7 @@ import {makeSelectOrderListData} from '../store/app/appSelector';
 
 const Stack = createStackNavigator();
 
-const OrdersListScreen = () => {
+const OrdersListScreen = ({orderListData}) => {
   const theme = useTheme();
 
   return (
@@ -31,14 +31,13 @@ const OrdersListScreen = () => {
 };
 
 OrdersListScreen.prototype = {
-  // getListOrder: PropTypes.func,
-  // orderListData: PropTypes.object,
+  orderListData: PropTypes.object,
 };
 
-// const mapStateToProps = createStructuredSelector({
-//     orderListData: makeSelectOrderListData(),
-// });
-//
+const mapStateToProps = createStructuredSelector({
+  orderListData: makeSelectOrderListData(),
+});
+
 // export function mapDispatchToProps(dispatch) {
 //     return {
 //         getListOrder: (storeId) => {
@@ -47,7 +46,7 @@ OrdersListScreen.prototype = {
 //     };
 // }
 
-export default connect(null, null)(OrdersListScreen);
+export default connect(null, mapStateToProps)(OrdersListScreen);
 
 const styles = StyleSheet.create({
   container: {
