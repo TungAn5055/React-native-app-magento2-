@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { Text as RNText, StyleSheet } from 'react-native';
+import React, {useContext} from 'react';
+import {Text as RNText, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
-import { TYPOGRAPHY } from '../../constants';
-import { ThemeContext } from '../../theme';
+import {TYPOGRAPHY} from '../../constants';
+import {ThemeContext} from '../../theme';
 
 // Possible value for prop "type" for Text
 const HEADING = 'heading';
@@ -46,8 +46,8 @@ const defaultProps = {
   style: {},
 };
 
-const Text = ({ type, bold, style, ...props }) => {
-  const { theme } = useContext(ThemeContext);
+const Text = ({type, bold, style, ...props}) => {
+  const {theme} = useContext(ThemeContext);
   return (
     <RNText
       style={StyleSheet.flatten([getTextStyle(type, bold, theme), style])}

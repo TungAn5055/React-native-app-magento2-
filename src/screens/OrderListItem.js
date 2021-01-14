@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {
   View,
-  Text,
   Image,
   StyleSheet,
   StatusBar,
@@ -21,24 +20,27 @@ import {getFormattedDate, isDateValid, stringToDate} from '../utils';
 
 import {priceSignByCode} from '../utils/price';
 import ProductItem from './ProductItem';
-import {Card} from '../common';
+import {Card, Divider, Price, Text} from '../common';
+import {SPACING} from '../constants';
 
-const OrderList = ({item, navigation}) => {
+const OrderList = ({item, index, navigation}) => {
   const theme = useTheme();
   const placedOn = stringToDate(item.created_at);
   const currencySymbol = priceSignByCode(item.order_currency_code);
 
   const onPress = () => {
     console.log('click');
-    // navigation.navigate(NAVIGATION_TO_ORDER_DETAIL_SCREEN, {
-    //   order,
-    // });
+    navigation.navigate('Home', {title: 'OrderList'});
   };
 
   return (
     <Card style={styles.container} onPress={onPress}>
       <View style={styles.orderDetailsContainer}>
         <View style={styles.orderNumberContainer}>
+          <Text type="subheading" bold>
+            {index}
+            {'. '}
+          </Text>
           <Text type="subheading">OrderNumber:</Text>
           <Text type="subheading" bold>
             {'  '}
@@ -47,15 +49,26 @@ const OrderList = ({item, navigation}) => {
         </View>
       </View>
       <Text>
-        Date:
+        Date:{' '}
         {isDateValid(placedOn) ? getFormattedDate(placedOn) : item.created_at}
       </Text>
-      <Text>{item.status}</Text>
+      <Text>Status: {item.status}</Text>
+      <View style={styles.orderNumberContainer}>
+        <Text type="subheading">Grand Total:</Text>
+        <Text type="subheading" bold>
+          {'  '}
+          <Price
+            basePrice={item.base_grand_total}
+            currencySymbol={currencySymbol}
+            currencyRate={1}
+          />
+        </Text>
+      </View>
       {item.items
         .filter((it) => it.product_type !== 'configurable')
         .map((it) => (
           <View key={it.sku}>
-            {/*<Divider />*/}
+            <Divider />
             <ProductItem item={it} currencySymbol={currencySymbol} />
           </View>
         ))}
@@ -85,6 +98,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(OrderList);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: SPACING.large,
+    paddingTop: SPACING.large,
   },
   sliderContainer: {
     height: 200,

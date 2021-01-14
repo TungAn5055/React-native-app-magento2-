@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -10,26 +10,31 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {useTheme} from '@react-navigation/native';
-import Swiper from 'react-native-swiper';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {createStructuredSelector} from 'reselect';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {actionGetListOrder} from '../store/app/appActions';
 import {makeSelectOrderListData} from '../store/app/appSelector';
 import OrderListItem from './OrderListItem';
+import {ThemeContext} from '../theme';
+import {SPACING} from '../constants';
 
 const OrderList = ({getListOrder, orderListData, navigation}) => {
-  const theme = useTheme();
+  const {theme} = useContext(ThemeContext);
   useEffect(() => {
     console.log('start an');
     // getListOrder(45);
   }, []);
 
-  console.log('orderData', orderListData);
-
+  const renderItem = ({item, index}) => {
+    return (
+      <OrderListItem item={item} index={index + 1} navigation={navigation} />
+    );
+  };
   return (
-    <View style={styles.container}>
-      <View style={styles.categoryContainer}>
+    <SafeAreaView style={styles.container(theme)}>
+      <View style={styles.container}>
+        {/*<View style={styles.categoryContainer}>*/}
         <FlatList
           LisHeaderComponent={
             <>
@@ -39,20 +44,17 @@ const OrderList = ({getListOrder, orderListData, navigation}) => {
           data={orderListData.items}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
-          ListEmptyComponent={<Text> List Order is Null</Text>}
-          // contentContainerStyle={[
-          //   styles.flatListConatiner,
-          //   orders.length === 0 && {flex: 1},
-          // ]}
+          ListEmptyComponent={<Text> List Order is empty!</Text>}
+          contentContainerStyle={[
+            styles.flatListConatiner,
+            // orders.length === 0 && {flex: 1},
+          ]}
         />
+        {/*</View>*/}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
-
-const renderItem = ({item, navigation}) => (
-  <OrderListItem item={item} navigation={navigation} />
-);
 
 OrderList.prototype = {
   getListOrder: PropTypes.func,
@@ -74,13 +76,18 @@ export function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(OrderList);
 
 const styles = StyleSheet.create({
-  container: {
+  container: (theme) => ({
     flex: 1,
-    // marginTop: 10,
-    // justifyContent: 'center',
-    // alignSelf: 'center',
-    // borderRadius: 8,
+    backgroundColor: theme.backgroundColor,
+  }),
+  flatListConatiner: {
+    paddingHorizontal: SPACING.small,
+    paddingTop: SPACING.small,
   },
+  content: {
+    flex: 1,
+  },
+  stickyFooter: {},
   sliderContainer: {
     height: 200,
     width: '90%',

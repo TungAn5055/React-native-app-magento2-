@@ -4,7 +4,7 @@ import Card from './Card/Card';
 // // import ProductListItem from './ProductListItem/ProductListItem';
 // import CheckBox from './CheckBox/CheckBox';
 // import DateTimePicker from './DateTimePicker/DateTimePicker';
-// import Divider from './Divider/Divider';
+import Divider from './Divider/Divider';
 // import GenericTemplate from './GenericTemplate/GenericTemplate';
 // import HeaderButtons from './HeaderButtons/HeaderButtons';
 // import Icon from './Icon/Icon';
@@ -13,9 +13,9 @@ import Card from './Card/Card';
 // import LoadingView from './LoadingView/LoadingView';
 // import MessageView from './MessageView/MessageView';
 // import ModalSelect from './ModalSelect/ModalSelect';
-// import Price from './Price/Price';
+import Price from './Price/Price';
 // import Spinner from './Spinner/Spinner';
-// import Text from './Text/Text';
+import Text from './Text/Text';
 // import TextInput from './TextInput/TextInput';
 // import TouchReceptor from './TouchReceptor/TouchReceptor';
 
@@ -26,7 +26,7 @@ export {
   // ProductListItem,
   // CheckBox,
   // DateTimePicker,
-  // Divider,
+  Divider,
   // GenericTemplate,
   // HeaderButtons,
   // Icon,
@@ -35,9 +35,9 @@ export {
   // LoadingView,
   // MessageView,
   // ModalSelect,
-  // Price,
+  Price,
   // Spinner,
-  // Text,
+  Text,
   // TextInput,
   // TouchReceptor,
 };
