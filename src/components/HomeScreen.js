@@ -16,15 +16,14 @@ import {createStructuredSelector} from 'reselect';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {actionGetListOrder} from '../store/app/appActions';
 import {makeSelectOrderListData} from '../store/app/appSelector';
+import {STORE_ID} from "../constants";
 
 const HomeScreen = ({getListOrder, orderListData, navigation}) => {
   const theme = useTheme();
   useEffect(() => {
-    console.log('start an');
-    getListOrder(45);
+    console.log('start call!!!!!!!!!!!!!!!!!');
+    getListOrder(STORE_ID);
   }, []);
-
-  console.log('orderData', orderListData);
 
   return (
     <ScrollView style={styles.container}>

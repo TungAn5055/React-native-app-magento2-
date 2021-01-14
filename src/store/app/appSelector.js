@@ -7,4 +7,9 @@ const makeSelectOrderListData = () =>
     selectOrderList,
     (selectOrderList) => selectOrderList.orderList,
   );
-export {makeSelectOrderListData};
+const makeSelectDataImage = () =>
+  createSelector(
+    selectOrderList,
+    (selectOrderList) => selectOrderList.dataImage,
+  );
+export {makeSelectOrderListData, makeSelectDataImage};

@@ -39,6 +39,6 @@ storiesOf('Icon', module)
       size={100}
       color="pink"
       style={{ backgroundColor: 'yellow' }}
-      onPress={() => console.log('On Press')}
+      // onPress={() => console.log('On Press')}
     />
   ));

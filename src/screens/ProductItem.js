@@ -5,7 +5,10 @@ import {connect} from 'react-redux';
 import {Text, Price} from '../common';
 import {isObject} from '../utils';
 import {DIMENS, SPACING} from '../constants';
-// import {getProductMedia} from '../../store/actions';
+import {createStructuredSelector} from "reselect";
+import {makeSelectDataImage, makeSelectOrderListData} from "../store/app/appSelector";
+import {actionGetProductMedia} from "../store/app/appActions";
+import {magentoOptions} from "../config/magento";
 
 // TODO: Fetch Media of each product and show image
 const ProductItem = ({
@@ -13,17 +16,20 @@ const ProductItem = ({
   media,
   currencySymbol = '$',
   // containerStyle,
-  // getProductMedia: _getProductMedia,
+  getProductMedia,
 }) => {
   let {name, price, row_total: rowTotal} = product;
-  console.log('price-----');
-  console.log(price);
-  console.log(product.qty_ordered);
-  // useEffect(() => {
-  //   if (!media) {
-  //     _getProductMedia(product.sku);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!media[product.sku]) {
+      getProductMedia(product.sku);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(`${magentoOptions.url}${magentoOptions.media_base}${media[product.sku]}`);
+  }, [media]);
+
+
 
   if (isObject(product.parent_item)) {
     name = product.parent_item.name || name;
@@ -36,15 +42,13 @@ const ProductItem = ({
   return (
     <View style={[styles.card]}>
       <Image
-        style={styles.imageStyle}
-        source={{
-          uri:
-            Array.isArray(media) && media.length > 0
-              ? // ? `${magento.getProductMediaUrl()}${media[0].file}`
-                ''
-              : 'https://1.bp.blogspot.com/-n_bFzL9lPUU/Xp23H9Sk8yI/AAAAAAAAhyA/JYfvZhwguxc8vT_YS3w14Xi3YWf3hxqIQCLcBGAsYHQ/s1600/Hinh-Anh-Dep-Tren-Mang%2B%25282%2529.jpg',
-        }}
-      />
+          style={styles.imageStyle}
+          source={{
+            uri:
+                media && Object.values(media).length > 0 && media[product.sku]
+                    ? `${magentoOptions.url}${magentoOptions.media_base}${media[product.sku].file}`
+                    : 'https://vietship.de/media/logo.png',
+          }}></Image>
       <View style={styles.detailContainer}>
         <Text bold>{name}</Text>
         <Text>sku: {product.sku}</Text>
@@ -101,35 +105,26 @@ const propTypes = {
       row_total: PropTypes.nuymber,
     }),
   }).isRequired,
-  // media: PropTypes.arrayOf(
-  //     PropTypes.shape({
-  //       file: PropTypes.string,
-  //       id: PropTypes.number,
-  //       label: PropTypes.string,
-  //       media_type: PropTypes.string,
-  //       types: PropTypes.arrayOf(PropTypes.string),
-  //     }),
-  // ).isRequired,
-  // getProductMedia: PropTypes.func.isRequired,
+  media: PropTypes.any,
+  getProductMedia: PropTypes.func,
   currencySymbol: PropTypes.string.isRequired,
   containerStyle: ViewPropTypes.style,
 };
 
-const defaultProps = {
-  // containerStyle: {},
-};
-
 ProductItem.propTypes = propTypes;
 
-ProductItem.defaultProps = defaultProps;
+// ProductItem.defaultProps = defaultProps;
 
-// const mapStateToProps = ({product}, {item}) => {
-//   const {
-//     cachedProductMedia: {[item.sku]: media},
-//   } = product;
-//   return {
-//     media,
-//   };
-// };
+const mapStateToProps = createStructuredSelector({
+  media: makeSelectDataImage(),
+});
 
-export default connect(null, null)(ProductItem);
+export function mapDispatchToProps(dispatch) {
+  return {
+    getProductMedia: (sku) => {
+      dispatch(actionGetProductMedia(sku));
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductItem);

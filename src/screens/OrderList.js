@@ -17,14 +17,15 @@ import {actionGetListOrder} from '../store/app/appActions';
 import {makeSelectOrderListData} from '../store/app/appSelector';
 import OrderListItem from './OrderListItem';
 import {ThemeContext} from '../theme';
-import {SPACING} from '../constants';
+import {SPACING, STORE_ID} from '../constants';
 
 const OrderList = ({getListOrder, orderListData, navigation}) => {
   const {theme} = useContext(ThemeContext);
-  useEffect(() => {
-    console.log('start an');
-    // getListOrder(45);
-  }, []);
+  // useEffect(() => {
+  //   if(Object.values(orderListData).length === 0) {
+  //     getListOrder(STORE_ID)
+  //   }
+  // }, []);
 
   const renderItem = ({item, index}) => {
     return (
