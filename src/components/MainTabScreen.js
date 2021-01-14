@@ -7,6 +7,7 @@ import HomeScreen from './HomeScreen';
 import {useTheme, Avatar} from 'react-native-paper';
 import {View} from 'react-native-animatable';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import OrderList from '../screens/OrderList';
 
 const HomeStack = createStackNavigator();
 
@@ -32,7 +33,7 @@ const MainTabScreen = () => (
         tabBarLabel: 'OrderLists',
         tabBarColor: '#FF6347',
         tabBarIcon: ({color}) => (
-          <Ionicons name="ios-restaurant" size={26} color="#FF6347" />
+          <Ionicons name="ios-restaurant" size={26} color={color} />
         ),
       }}
     />
@@ -59,6 +60,35 @@ const HomeStackScreen = ({navigation}) => {
       <HomeStack.Screen
         name="Home"
         component={HomeScreen}
+        options={{
+          title: 'FoodFinder',
+          headerLeft: () => (
+            <View style={{marginLeft: 10}}>
+              <Icon.Button
+                name="ios-menu"
+                size={25}
+                color={colors.text}
+                backgroundColor={colors.background}
+                onPress={() => navigation.openDrawer()}
+              />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{flexDirection: 'row', marginRight: 10}}>
+              <Icon.Button
+                name="ios-search"
+                size={25}
+                color={colors.text}
+                backgroundColor={colors.background}
+                onPress={() => {}}
+              />
+            </View>
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="OrderList"
+        component={OrderList}
         options={{
           title: 'FoodFinder',
           headerLeft: () => (

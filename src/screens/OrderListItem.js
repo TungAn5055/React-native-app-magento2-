@@ -5,8 +5,9 @@ import {
   Image,
   StyleSheet,
   StatusBar,
-  TouchableOpacity,
+  FlatList,
   ScrollView,
+  ViewGroup,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -16,66 +17,42 @@ import {createStructuredSelector} from 'reselect';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {actionGetListOrder} from '../store/app/appActions';
 import {makeSelectOrderListData} from '../store/app/appSelector';
+import {getFormattedDate, isDateValid, stringToDate} from '../utils';
 
-const HomeScreen = ({getListOrder, orderListData, navigation}) => {
+import {priceSignByCode} from '../utils/price';
+import ProductItem from './ProductItem';
+
+const OrderList = ({item, navigation}) => {
   const theme = useTheme();
-  useEffect(() => {
-    console.log('start an');
-    getListOrder(45);
-  }, []);
-
-  console.log('orderData', orderListData);
+  const placedOn = stringToDate(item.created_at);
+  const currencySymbol = priceSignByCode(item.order_currency_code);
 
   return (
-    <ScrollView style={styles.container}>
-      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-      <View style={styles.sliderContainer}>
-        <Swiper
-          autoplay
-          horizontal={false}
-          height={200}
-          activeDotColor="#FF6347">
-          <View style={styles.slide}>
-            <Image
-              source={require('../../assets/banners/food-banner1.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}
-            />
-          </View>
-          <View style={styles.slide}>
-            <Image
-              source={require('../../assets/banners/food-banner2.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}
-            />
-          </View>
-          <View style={styles.slide}>
-            <Image
-              source={require('../../assets/banners/food-banner3.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}
-            />
-          </View>
-        </Swiper>
+    <ScrollView>
+      <View>
+        <Text type="subheading">orderNumber:</Text>
+        <Text type="subheading" bold>
+          {item.increment_id}
+        </Text>
       </View>
-
-      <View style={styles.categoryContainer}>
-        <TouchableOpacity
-          style={styles.categoryBtn}
-          onPress={() =>
-            navigation.navigate('OrderList', {title: 'OrderList'})
-          }>
-          <View style={styles.categoryIcon}>
-            <Ionicons name="ios-restaurant" size={35} color="#FF6347" />
+      <Text>
+        Date:
+        {isDateValid(placedOn) ? getFormattedDate(placedOn) : item.created_at}
+      </Text>
+      <Text>{item.status}</Text>
+      {item.items
+        .filter((it) => it.product_type !== 'configurable')
+        .map((it) => (
+          <View key={it.sku}>
+            {/*<Divider />*/}
+            <ProductItem item={it} currencySymbol={currencySymbol} />
           </View>
-          <Text style={styles.categoryBtnTxt}>List Orders</Text>
-        </TouchableOpacity>
-      </View>
+        ))}
     </ScrollView>
   );
 };
 
-HomeScreen.prototype = {
+OrderList.prototype = {
   getListOrder: PropTypes.func,
   orderListData: PropTypes.object,
 };
@@ -92,7 +69,7 @@ export function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderList);
 
 const styles = StyleSheet.create({
   container: {

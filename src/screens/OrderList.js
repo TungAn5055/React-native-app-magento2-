@@ -5,7 +5,7 @@ import {
   Image,
   StyleSheet,
   StatusBar,
-  TouchableOpacity,
+  FlatList,
   ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -16,12 +16,13 @@ import {createStructuredSelector} from 'reselect';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {actionGetListOrder} from '../store/app/appActions';
 import {makeSelectOrderListData} from '../store/app/appSelector';
+import OrderListItem from './OrderListItem';
 
-const HomeScreen = ({getListOrder, orderListData, navigation}) => {
+const OrderList = ({getListOrder, orderListData, navigation}) => {
   const theme = useTheme();
   useEffect(() => {
     console.log('start an');
-    getListOrder(45);
+    // getListOrder(45);
   }, []);
 
   console.log('orderData', orderListData);
@@ -29,53 +30,32 @@ const HomeScreen = ({getListOrder, orderListData, navigation}) => {
   return (
     <ScrollView style={styles.container}>
       <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-      <View style={styles.sliderContainer}>
-        <Swiper
-          autoplay
-          horizontal={false}
-          height={200}
-          activeDotColor="#FF6347">
-          <View style={styles.slide}>
-            <Image
-              source={require('../../assets/banners/food-banner1.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}
-            />
-          </View>
-          <View style={styles.slide}>
-            <Image
-              source={require('../../assets/banners/food-banner2.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}
-            />
-          </View>
-          <View style={styles.slide}>
-            <Image
-              source={require('../../assets/banners/food-banner3.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}
-            />
-          </View>
-        </Swiper>
-      </View>
-
       <View style={styles.categoryContainer}>
-        <TouchableOpacity
-          style={styles.categoryBtn}
-          onPress={() =>
-            navigation.navigate('OrderList', {title: 'OrderList'})
-          }>
-          <View style={styles.categoryIcon}>
-            <Ionicons name="ios-restaurant" size={35} color="#FF6347" />
-          </View>
-          <Text style={styles.categoryBtnTxt}>List Orders</Text>
-        </TouchableOpacity>
+        <FlatList
+          LisHeaderComponent={
+            <>
+              <Text>List order:</Text>
+            </>
+          }
+          data={orderListData.items}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          ListEmptyComponent={<Text> List Order is Null</Text>}
+          // contentContainerStyle={[
+          //   styles.flatListConatiner,
+          //   orders.length === 0 && {flex: 1},
+          // ]}
+        />
       </View>
     </ScrollView>
   );
 };
 
-HomeScreen.prototype = {
+const renderItem = ({item, navigation}) => (
+  <OrderListItem item={item} navigation={navigation} />
+);
+
+OrderList.prototype = {
   getListOrder: PropTypes.func,
   orderListData: PropTypes.object,
 };
@@ -92,7 +72,7 @@ export function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderList);
 
 const styles = StyleSheet.create({
   container: {

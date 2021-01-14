@@ -7,7 +7,6 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SET_LIST_ORDER:
-      console.log('reducer');
       return {
         ...state,
         orderList: action.data,
