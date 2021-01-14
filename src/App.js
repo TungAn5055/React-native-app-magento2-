@@ -15,8 +15,8 @@ import {Provider as StoreProvider} from 'react-redux';
 import {DrawerContent} from '../src/components/DrawerContent';
 import MainTabScreen from '../src/components/MainTabScreen';
 import {AuthContext} from '../components/context';
+import {ThemeProvider, lightTheme as themes} from './theme';
 import store from './store';
-
 const Drawer = createDrawerNavigator();
 
 const App = () => {
@@ -30,43 +30,45 @@ const App = () => {
     [],
   );
 
-  const CustomDefaultTheme = {
-    ...NavigationDefaultTheme,
-    ...PaperDefaultTheme,
-    colors: {
-      ...NavigationDefaultTheme.colors,
-      ...PaperDefaultTheme.colors,
-      background: '#ffffff',
-      text: '#333333',
-    },
-  };
-
-  const CustomDarkTheme = {
-    ...NavigationDarkTheme,
-    ...PaperDarkTheme,
-    colors: {
-      ...NavigationDarkTheme.colors,
-      ...PaperDarkTheme.colors,
-      background: '#333333',
-      text: '#ffffff',
-    },
-  };
-
   const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
   return (
     <StoreProvider store={store}>
       <PaperProvider theme={theme}>
-        <AuthContext.Provider value={authContext}>
-          <NavigationContainer theme={theme}>
-            <Drawer.Navigator
-              drawerContent={(props) => <DrawerContent {...props} />}>
-              <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
-            </Drawer.Navigator>
-          </NavigationContainer>
-        </AuthContext.Provider>
+        <ThemeProvider theme={themes}>
+          <AuthContext.Provider value={authContext}>
+            <NavigationContainer theme={theme}>
+              <Drawer.Navigator
+                drawerContent={(props) => <DrawerContent {...props} />}>
+                <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
+              </Drawer.Navigator>
+            </NavigationContainer>
+          </AuthContext.Provider>
+        </ThemeProvider>
       </PaperProvider>
     </StoreProvider>
   );
+};
+
+const CustomDefaultTheme = {
+  ...NavigationDefaultTheme,
+  ...PaperDefaultTheme,
+  colors: {
+    ...NavigationDefaultTheme.colors,
+    ...PaperDefaultTheme.colors,
+    background: '#ffffff',
+    text: '#333333',
+  },
+};
+
+const CustomDarkTheme = {
+  ...NavigationDarkTheme,
+  ...PaperDarkTheme,
+  colors: {
+    ...NavigationDarkTheme.colors,
+    ...PaperDarkTheme.colors,
+    background: '#333333',
+    text: '#ffffff',
+  },
 };
 
 export default App;

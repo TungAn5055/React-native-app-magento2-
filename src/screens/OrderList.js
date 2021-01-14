@@ -28,8 +28,7 @@ const OrderList = ({getListOrder, orderListData, navigation}) => {
   console.log('orderData', orderListData);
 
   return (
-    <ScrollView style={styles.container}>
-      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
+    <View style={styles.container}>
       <View style={styles.categoryContainer}>
         <FlatList
           LisHeaderComponent={
@@ -47,7 +46,7 @@ const OrderList = ({getListOrder, orderListData, navigation}) => {
           // ]}
         />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -77,6 +76,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(OrderList);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // marginTop: 10,
+    // justifyContent: 'center',
+    // alignSelf: 'center',
+    // borderRadius: 8,
   },
   sliderContainer: {
     height: 200,

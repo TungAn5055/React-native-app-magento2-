@@ -21,19 +21,30 @@ import {getFormattedDate, isDateValid, stringToDate} from '../utils';
 
 import {priceSignByCode} from '../utils/price';
 import ProductItem from './ProductItem';
+import {Card} from '../common';
 
 const OrderList = ({item, navigation}) => {
   const theme = useTheme();
   const placedOn = stringToDate(item.created_at);
   const currencySymbol = priceSignByCode(item.order_currency_code);
 
+  const onPress = () => {
+    console.log('click');
+    // navigation.navigate(NAVIGATION_TO_ORDER_DETAIL_SCREEN, {
+    //   order,
+    // });
+  };
+
   return (
-    <ScrollView>
-      <View>
-        <Text type="subheading">orderNumber:</Text>
-        <Text type="subheading" bold>
-          {item.increment_id}
-        </Text>
+    <Card style={styles.container} onPress={onPress}>
+      <View style={styles.orderDetailsContainer}>
+        <View style={styles.orderNumberContainer}>
+          <Text type="subheading">OrderNumber:</Text>
+          <Text type="subheading" bold>
+            {'  '}
+            {item.increment_id}
+          </Text>
+        </View>
       </View>
       <Text>
         Date:
@@ -48,7 +59,7 @@ const OrderList = ({item, navigation}) => {
             <ProductItem item={it} currencySymbol={currencySymbol} />
           </View>
         ))}
-    </ScrollView>
+    </Card>
   );
 };
 
@@ -83,7 +94,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 8,
   },
-
+  orderNumberContainer: {
+    flexDirection: 'row',
+  },
   wrapper: {},
 
   slide: {

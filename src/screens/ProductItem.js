@@ -44,10 +44,10 @@ const ProductItem = ({
       <Text>{name}</Text>
       <View style={styles.detailContainer}>
         <Text>{name}</Text>
-        <Text>sku: ${product.sku}`}</Text>
-        <Text>quantity: ${product.qty_ordered}`}</Text>
+        <Text>sku: {product.sku}</Text>
+        <Text>quantity: {product.qty_ordered}</Text>
         <View style={styles.row}>
-          <Text>price</Text>
+          <Text>{price}</Text>
           {/*<Price*/}
           {/*  basePrice={price}*/}
           {/*  currencySymbol={currencySymbol}*/}

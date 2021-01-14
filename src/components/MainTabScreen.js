@@ -61,7 +61,7 @@ const HomeStackScreen = ({navigation}) => {
         name="Home"
         component={HomeScreen}
         options={{
-          title: 'FoodFinder',
+          title: 'Tungan',
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
               <Icon.Button
@@ -90,7 +90,7 @@ const HomeStackScreen = ({navigation}) => {
         name="OrderList"
         component={OrderList}
         options={{
-          title: 'FoodFinder',
+          title: 'Tungan',
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
               <Icon.Button

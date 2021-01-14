@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { View, StyleSheet, ViewPropTypes } from 'react-native';
+import React, {useContext} from 'react';
+import {View, StyleSheet, ViewPropTypes} from 'react-native';
 import PropTypes from 'prop-types';
 import TouchReceptor from '../TouchReceptor/TouchReceptor';
-import { ThemeContext } from '../../theme';
-import { DIMENS } from '../../constants';
+import {ThemeContext} from '../../theme';
+import {DIMENS} from '../../constants';
 
 const OUTLINE = 'outline';
 const CLEAR = 'clear';
@@ -32,10 +32,10 @@ const propTypes = {
   /**
    * Children to render inside Card
    */
-  children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.element, null])),
-  ]).isRequired,
+  // children: PropTypes.oneOfType([
+  //   PropTypes.element,
+  //   PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.element, null])),
+  // ]).isRequired,
 };
 
 const defaultProps = {
@@ -45,27 +45,26 @@ const defaultProps = {
   onPress: null,
 };
 
-const Card = ({ type, style, onPress, disabled, children }) => {
+const Card = ({type, style, onPress, disabled, children}) => {
   const ViewGroup = onPress ? TouchReceptor : React.Fragment;
-  const { theme } = useContext(ThemeContext);
+  const {theme} = useContext(ThemeContext);
   const shadow = type === SHADOW ? shadowStyle(theme) : {};
 
   return (
-    <ViewGroup {...(onPress && { onPress, disabled })}>
+    <ViewGroup {...(onPress && {onPress, disabled})}>
       <View
         style={StyleSheet.flatten([
           styles.container(type, theme),
           shadow,
           style,
-        ])}
-      >
+        ])}>
         {children}
       </View>
     </ViewGroup>
   );
 };
 
-const shadowStyle = theme => ({
+const shadowStyle = (theme) => ({
   shadowColor: theme.black,
   shadowOffset: {
     width: 0,

@@ -1,5 +1,5 @@
 // import Button from './Button/Button';
-// import Card from './Card/Card';
+import Card from './Card/Card';
 // // import ProductList from './ProductList/ProductList';
 // // import ProductListItem from './ProductListItem/ProductListItem';
 // import CheckBox from './CheckBox/CheckBox';
@@ -21,7 +21,7 @@
 
 export {
   // Button,
-  // Card,
+  Card,
   // ProductList,
   // ProductListItem,
   // CheckBox,
