@@ -9,7 +9,7 @@ function* getOrderList({storeId}) {
     '/rest/V1/orders?searchCriteria[filter_groups][0][filters][0][field]=store_id& searchCriteria[filter_groups][0][filters][0][value]=' +
     storeId +
     '& searchCriteria[filter_groups][0][filters][0][condition_type]=like&searchCriteria[sortOrders][0][field]=created_at&searchCriteria[sortOrders][0][direction]=DESC';
-    // '&fields=items[increment_id,entity_id]';
+  // '&fields=items[increment_id,entity_id]';
   yield axios
     .get(requestURL, {
       headers: {
