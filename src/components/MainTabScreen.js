@@ -30,7 +30,7 @@ const MainTabScreen = () => (
     />
     <Tab.Screen
       name="OrderLists"
-      component={HomeStackScreen}
+      component={OrderList}
       options={{
         tabBarLabel: 'OrderLists',
         tabBarColor: '#FF6347',

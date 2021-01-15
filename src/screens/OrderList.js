@@ -46,10 +46,7 @@ const OrderList = ({getListOrder, orderListData, navigation}) => {
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
           ListEmptyComponent={<Text> List Order is empty!</Text>}
-          contentContainerStyle={[
-            styles.flatListConatiner,
-            // orders.length === 0 && {flex: 1},
-          ]}
+          contentContainerStyle={[styles.flatListConatiner]}
         />
         {/*</View>*/}
       </View>

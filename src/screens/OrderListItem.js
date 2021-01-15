@@ -39,14 +39,19 @@ const OrderList = ({item, index, navigation}) => {
     <Card style={styles.container} onPress={onPress}>
       <View style={styles.orderDetailsContainer}>
         <View style={styles.orderNumberContainer}>
-          <Text type="subheading" bold>
+          <Text type="subheading" bold style={{color: '#000'}}>
             {index}
             {'. '}
           </Text>
           <Text type="subheading">OrderNumber:</Text>
-          <Text type="subheading" bold>
+          <Text type="subheading" bold style={{color: '#FF6600'}}>
             {'  '}
-            {item.increment_id}
+            <Text
+              type="subheading"
+              bold
+              style={{color: '#FF6600', textDecorationLine: 'underline'}}>
+              {item.increment_id}
+            </Text>
           </Text>
         </View>
       </View>
@@ -74,6 +79,7 @@ const OrderList = ({item, index, navigation}) => {
             <ProductItem item={it} currencySymbol={currencySymbol} />
           </View>
         ))}
+      {/*<Divider style={styles.divider} />*/}
     </Card>
   );
 };
@@ -102,6 +108,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: SPACING.large,
     paddingTop: SPACING.large,
+    borderBottomColor: '#DDDDDD',
+    borderBottomWidth: SPACING.small,
+  },
+  divider: {
+    backgroundColor: '#d50000',
+    // width: 100%,
   },
   sliderContainer: {
     height: 200,

@@ -50,7 +50,7 @@ const ProductItem = ({
           uri:
             media && Object.values(media).length > 0 && media[product.sku]
               ? `${magentoOptions.url}${magentoOptions.media_base}${
-                  media[product.sku].file
+                  media[product.sku]
                 }`
               : 'https://vietship.de/media/logo.png',
         }}

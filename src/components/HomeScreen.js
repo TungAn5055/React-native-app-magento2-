@@ -16,7 +16,7 @@ import {createStructuredSelector} from 'reselect';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {actionGetListOrder} from '../store/app/appActions';
 import {makeSelectOrderListData} from '../store/app/appSelector';
-import {STORE_ID} from "../constants";
+import {STORE_ID} from '../constants';
 
 const HomeScreen = ({getListOrder, orderListData, navigation}) => {
   const theme = useTheme();
