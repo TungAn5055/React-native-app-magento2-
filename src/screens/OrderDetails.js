@@ -1,17 +1,17 @@
 import React, {useEffect, useContext, useState, useMemo} from 'react';
-import {View, StyleSheet, FlatList, ScrollView} from 'react-native';
+import {View, StyleSheet, FlatList, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ThemeContext} from '../theme';
-import {SPACING} from '../constants';
-import {CONFIGURABLE_TYPE_SK} from '../constants';
+import axios from 'axios';
+import {CONFIGURABLE_TYPE_SK, SPACING} from '../constants';
 import ProductItem from './ProductItem';
 import {Card, Text, Icon, Price, Divider, Button} from '../common';
 import {getFormattedDate, isDateValid, stringToDate} from '../utils';
 import {priceSignByCode} from '../utils/price';
-import axios from 'axios';
 
 const OrderDetails = ({
+  navigation,
   route: {
     params: {orderId = -1, placedOn = '', order = {}},
   },
@@ -40,19 +40,67 @@ const OrderDetails = ({
     priceSignByCode(orderDetail.order_currency_code) || '$';
   const placedOns = stringToDate(placedOn);
 
+  const onClickAccept = () => {
+    if (orderId) {
+      const requestURL = `rest/default/V1/order/${orderId}/invoice`;
+      axios
+        .post(requestURL, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            navigation.navigate('OrderStatus', {
+              message: 'You have successfully confirmed your order!',
+            });
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            Alert.alert('You Cannot Invoice Order!');
+          }
+        });
+    }
+  };
+  const onClickCancel = () => {
+    console.log('onClickCancel');
+    if (orderId) {
+      const requestURL = `/rest/default/V1/orders/${orderId}/cancel`;
+      axios
+        .post(requestURL, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            navigation.navigate('OrderStatus', {
+              message: 'You have successfully canceled your order!',
+            });
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            Alert.alert('You Cannot Cancel Order!');
+          }
+        });
+    }
+  };
   const renderHeader = () => (
     <>
       <View style={styles.buttonContainer}>
         <Button
-          title="abc123"
+          title="Accept"
           titleStyle={styles.loginButtonText}
-          style={styles.defaultMargin}
+          style={styles.buttonOk}
+          onPress={onClickAccept}
         />
         <Button
-          tintColor="#FF9800"
-          type="solid"
-          title="Orange Button"
-          // onPress={action('solid')}
+          title="Cancel"
+          titleStyle={styles.loginButtonText}
+          style={styles.buttonCancel}
+          onPress={onClickCancel}
           icon={{type: 'font-awesome', name: 'facebook'}}
         />
       </View>
@@ -193,10 +241,10 @@ const styles = StyleSheet.create({
   loginButtonText: {
     textTransform: 'uppercase',
   },
-  defaultMargin: {
+  buttonOk: {
     marginTop: SPACING.tiny,
     width: '80%',
-    backgroundColor: '#009688',
+    backgroundColor: '#00CC33',
     padding: 13,
     borderRadius: 13,
     alignSelf: 'center',
@@ -213,6 +261,14 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold',
     // alignSelf: 'center',
     // textTransform: 'uppercase',
+  },
+  buttonCancel: {
+    marginTop: SPACING.tiny,
+    width: '80%',
+    backgroundColor: '#CC3333',
+    padding: 13,
+    borderRadius: 13,
+    alignSelf: 'center',
   },
   headerContainer: {
     padding: SPACING.large,

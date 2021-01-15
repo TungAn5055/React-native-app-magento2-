@@ -8,7 +8,8 @@ import {useTheme, Avatar} from 'react-native-paper';
 import {View} from 'react-native-animatable';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import OrderList from '../screens/OrderList';
-import OrderDetails from "../screens/OrderDetails";
+import OrderDetails from '../screens/OrderDetails';
+import OrderStatus from '../screens/OrderStatus';
 
 const HomeStack = createStackNavigator();
 
@@ -119,6 +120,35 @@ const HomeStackScreen = ({navigation}) => {
       <HomeStack.Screen
         name="OrderDetails"
         component={OrderDetails}
+        options={{
+          title: 'Tungan',
+          headerLeft: () => (
+            <View style={{marginLeft: 10}}>
+              <Icon.Button
+                name="ios-menu"
+                size={25}
+                color={colors.text}
+                backgroundColor={colors.background}
+                onPress={() => navigation.openDrawer()}
+              />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{flexDirection: 'row', marginRight: 10}}>
+              <Icon.Button
+                name="ios-search"
+                size={25}
+                color={colors.text}
+                backgroundColor={colors.background}
+                onPress={() => {}}
+              />
+            </View>
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="OrderStatus"
+        component={OrderStatus}
         options={{
           title: 'Tungan',
           headerLeft: () => (
