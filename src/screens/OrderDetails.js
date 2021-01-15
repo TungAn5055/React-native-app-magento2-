@@ -38,19 +38,18 @@ const OrderDetails = ({
 
   const currencySymbol =
     priceSignByCode(orderDetail.order_currency_code) || '$';
-  // const placedOn = stringToDate(orderDetail.created_at);
+  const placedOns = stringToDate(placedOn);
   console.log('1231annnnnnn');
   console.log(orderId);
   console.log(placedOn);
+  console.log(placedOns);
 
   const renderHeader = () => (
     <>
       <Card type="clear" style={styles.headerContainer}>
         <Text>{`Status: ${orderDetail.status}`}</Text>
         <Text>{`PlacedOn: ${
-          isDateValid(placedOn)
-            ? getFormattedDate(stringToDate())
-            : order.created_at
+          isDateValid(placedOns) ? getFormattedDate(placedOns) : placedOn
         }`}</Text>
         <View style={styles.row}>
           <Text>{'SubTotal: '}</Text>
