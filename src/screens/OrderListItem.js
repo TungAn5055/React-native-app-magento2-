@@ -30,7 +30,10 @@ const OrderList = ({item, index, navigation}) => {
 
   const onPress = () => {
     console.log('click');
-    navigation.navigate('Home', {title: 'OrderList'});
+    navigation.navigate('OrderDetails', {
+      orderId: item.entity_id,
+      placedOn: placedOn,
+    });
   };
 
   return (

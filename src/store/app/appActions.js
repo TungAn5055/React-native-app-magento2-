@@ -1,7 +1,9 @@
 import {
   GET_LIST_ORDER,
   SET_LIST_ORDER,
-  GET_IMAGE_PRODUCT, SET_DATA_IMAGE,
+  GET_IMAGE_PRODUCT,
+  SET_DATA_IMAGE,
+  GET_DATA_ORDER,
 } from '../../constants';
 
 export const initializeApp = () => ({});
@@ -20,5 +22,10 @@ export const actionGetProductMedia = (sku) => ({
 export const actionSetProductMedia = (sku, data) => ({
   type: SET_DATA_IMAGE,
   sku,
-  data
+  data,
+});
+
+export const actionGetDataOrder = (orderId) => ({
+  type: GET_DATA_ORDER,
+  orderId,
 });

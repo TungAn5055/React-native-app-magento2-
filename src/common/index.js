@@ -7,7 +7,7 @@ import Card from './Card/Card';
 import Divider from './Divider/Divider';
 // import GenericTemplate from './GenericTemplate/GenericTemplate';
 // import HeaderButtons from './HeaderButtons/HeaderButtons';
-// import Icon from './Icon/Icon';
+import Icon from './Icon/Icon';
 // import Image from './Image/Image';
 // // import ImageSlider from './ImageSlider/ImageSlider';
 // import LoadingView from './LoadingView/LoadingView';
@@ -29,7 +29,7 @@ export {
   Divider,
   // GenericTemplate,
   // HeaderButtons,
-  // Icon,
+  Icon,
   // Image,
   // ImageSlider,
   // LoadingView,

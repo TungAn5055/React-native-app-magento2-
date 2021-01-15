@@ -5,10 +5,13 @@ import {connect} from 'react-redux';
 import {Text, Price} from '../common';
 import {isObject} from '../utils';
 import {DIMENS, SPACING} from '../constants';
-import {createStructuredSelector} from "reselect";
-import {makeSelectDataImage, makeSelectOrderListData} from "../store/app/appSelector";
-import {actionGetProductMedia} from "../store/app/appActions";
-import {magentoOptions} from "../config/magento";
+import {createStructuredSelector} from 'reselect';
+import {
+  makeSelectDataImage,
+  makeSelectOrderListData,
+} from '../store/app/appSelector';
+import {actionGetProductMedia} from '../store/app/appActions';
+import {magentoOptions} from '../config/magento';
 
 // TODO: Fetch Media of each product and show image
 const ProductItem = ({
@@ -26,10 +29,10 @@ const ProductItem = ({
   }, []);
 
   useEffect(() => {
-    console.log(`${magentoOptions.url}${magentoOptions.media_base}${media[product.sku]}`);
+    console.log(
+      `${magentoOptions.url}${magentoOptions.media_base}${media[product.sku]}`,
+    );
   }, [media]);
-
-
 
   if (isObject(product.parent_item)) {
     name = product.parent_item.name || name;
@@ -42,13 +45,16 @@ const ProductItem = ({
   return (
     <View style={[styles.card]}>
       <Image
-          style={styles.imageStyle}
-          source={{
-            uri:
-                media && Object.values(media).length > 0 && media[product.sku]
-                    ? `${magentoOptions.url}${magentoOptions.media_base}${media[product.sku].file}`
-                    : 'https://vietship.de/media/logo.png',
-          }}></Image>
+        style={styles.imageStyle}
+        source={{
+          uri:
+            media && Object.values(media).length > 0 && media[product.sku]
+              ? `${magentoOptions.url}${magentoOptions.media_base}${
+                  media[product.sku].file
+                }`
+              : 'https://vietship.de/media/logo.png',
+        }}
+      />
       <View style={styles.detailContainer}>
         <Text bold>{name}</Text>
         <Text>sku: {product.sku}</Text>
