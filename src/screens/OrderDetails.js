@@ -6,7 +6,7 @@ import {ThemeContext} from '../theme';
 import {SPACING} from '../constants';
 import {CONFIGURABLE_TYPE_SK} from '../constants';
 import ProductItem from './ProductItem';
-import {Card, Text, Icon, Price, Divider} from '../common';
+import {Card, Text, Icon, Price, Divider, Button} from '../common';
 import {getFormattedDate, isDateValid, stringToDate} from '../utils';
 import {priceSignByCode} from '../utils/price';
 import axios from 'axios';
@@ -39,13 +39,24 @@ const OrderDetails = ({
   const currencySymbol =
     priceSignByCode(orderDetail.order_currency_code) || '$';
   const placedOns = stringToDate(placedOn);
-  console.log('1231annnnnnn');
-  console.log(orderId);
-  console.log(placedOn);
-  console.log(placedOns);
 
   const renderHeader = () => (
     <>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="abc123"
+          titleStyle={styles.loginButtonText}
+          style={styles.defaultMargin}
+        />
+        <Button
+          tintColor="#FF9800"
+          type="solid"
+          title="Orange Button"
+          // onPress={action('solid')}
+          icon={{type: 'font-awesome', name: 'facebook'}}
+        />
+      </View>
+
       <Card type="clear" style={styles.headerContainer}>
         <Text>{`Status: ${orderDetail.status}`}</Text>
         <Text>{`PlacedOn: ${
@@ -176,9 +187,39 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: SPACING.large,
   },
+  addToCart: {
+    borderRadius: 5,
+  },
+  loginButtonText: {
+    textTransform: 'uppercase',
+  },
+  defaultMargin: {
+    marginTop: SPACING.tiny,
+    width: '80%',
+    backgroundColor: '#009688',
+    padding: 13,
+    borderRadius: 13,
+    alignSelf: 'center',
+
+    // elevation: 9,
+    // backgroundColor: '#009688',
+    // borderRadius: 10,
+    // paddingVertical: 10,
+    // paddingHorizontal: 12,
+    // padding: 15,
+
+    // fontSize: 18,
+    // color: '#fff',
+    // fontWeight: 'bold',
+    // alignSelf: 'center',
+    // textTransform: 'uppercase',
+  },
   headerContainer: {
     padding: SPACING.large,
     marginBottom: SPACING.large,
+  },
+  buttonContainer: {
+    padding: SPACING.small,
   },
   row: {
     flexDirection: 'row',

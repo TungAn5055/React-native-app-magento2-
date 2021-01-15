@@ -1,4 +1,4 @@
-// import Button from './Button/Button';
+import Button from './Button/Button';
 import Card from './Card/Card';
 // // import ProductList from './ProductList/ProductList';
 // // import ProductListItem from './ProductListItem/ProductListItem';
@@ -20,7 +20,7 @@ import Text from './Text/Text';
 // import TouchReceptor from './TouchReceptor/TouchReceptor';
 
 export {
-  // Button,
+  Button,
   Card,
   // ProductList,
   // ProductListItem,
