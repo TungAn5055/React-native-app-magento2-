@@ -63,7 +63,7 @@ const HomeStackScreen = ({navigation}) => {
         name="Home"
         component={HomeScreen}
         options={{
-          title: 'Tungan',
+          title: 'Mammam',
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
               <Icon.Button
@@ -92,7 +92,7 @@ const HomeStackScreen = ({navigation}) => {
         name="OrderList"
         component={OrderList}
         options={{
-          title: 'Tungan',
+          title: 'Mammam',
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
               <Icon.Button
@@ -121,7 +121,7 @@ const HomeStackScreen = ({navigation}) => {
         name="OrderDetails"
         component={OrderDetails}
         options={{
-          title: 'Tungan',
+          title: 'Mammam',
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
               <Icon.Button
@@ -150,7 +150,7 @@ const HomeStackScreen = ({navigation}) => {
         name="OrderStatus"
         component={OrderStatus}
         options={{
-          title: 'Tungan',
+          title: 'Mammam',
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
               <Icon.Button
