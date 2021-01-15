@@ -28,11 +28,11 @@ const ProductItem = ({
     }
   }, []);
 
-  useEffect(() => {
-    console.log(
-      `${magentoOptions.url}${magentoOptions.media_base}${media[product.sku]}`,
-    );
-  }, [media]);
+  // useEffect(() => {
+  //   console.log(
+  //     `${magentoOptions.url}${magentoOptions.media_base}${media[product.sku]}`,
+  //   );
+  // }, [media]);
 
   if (isObject(product.parent_item)) {
     name = product.parent_item.name || name;

@@ -29,10 +29,9 @@ const OrderList = ({item, index, navigation}) => {
   const currencySymbol = priceSignByCode(item.order_currency_code);
 
   const onPress = () => {
-    console.log('click');
     navigation.navigate('OrderDetails', {
       orderId: item.entity_id,
-      placedOn: placedOn,
+      placedOn: item.created_at,
     });
   };
 

@@ -39,7 +39,8 @@ const OrderDetails = ({
   const currencySymbol =
     priceSignByCode(orderDetail.order_currency_code) || '$';
   // const placedOn = stringToDate(orderDetail.created_at);
-  console.log('1231fsddd');
+  console.log('1231annnnnnn');
+  console.log(orderId);
   console.log(placedOn);
 
   const renderHeader = () => (
