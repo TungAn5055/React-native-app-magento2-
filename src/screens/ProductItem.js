@@ -8,14 +8,17 @@ import {DIMENS, SPACING} from '../constants';
 import {createStructuredSelector} from 'reselect';
 import {
   makeSelectDataImage,
+  makeSelectLoaderImage,
   makeSelectOrderListData,
 } from '../store/app/appSelector';
 import {actionGetProductMedia} from '../store/app/appActions';
 import {magentoOptions} from '../config/magento';
+import LoadingView from '../common/LoadingView/LoadingView';
 
 // TODO: Fetch Media of each product and show image
 const ProductItem = ({
   item: product,
+  loaderImage,
   media,
   currencySymbol = '$',
   // containerStyle,
@@ -44,17 +47,21 @@ const ProductItem = ({
 
   return (
     <View style={[styles.card]}>
-      <Image
-        style={styles.imageStyle}
-        source={{
-          uri:
-            media && Object.values(media).length > 0 && media[product.sku]
-              ? `${magentoOptions.url}${magentoOptions.media_base}${
-                  media[product.sku]
-                }`
-              : 'https://vietship.de/media/logo.png',
-        }}
-      />
+      {loaderImage ? (
+        <LoadingView />
+      ) : (
+        <Image
+          style={styles.imageStyle}
+          source={{
+            uri:
+              media && Object.values(media).length > 0 && media[product.sku]
+                ? `${magentoOptions.url}${magentoOptions.media_base}${
+                    media[product.sku]
+                  }`
+                : 'https://vietship.de/media/logo.png',
+          }}
+        />
+      )}
       <View style={styles.detailContainer}>
         <Text bold>{name}</Text>
         <Text>sku: {product.sku}</Text>
@@ -115,6 +122,7 @@ const propTypes = {
   getProductMedia: PropTypes.func,
   currencySymbol: PropTypes.string.isRequired,
   containerStyle: ViewPropTypes.style,
+  loaderImage: PropTypes.bool,
 };
 
 ProductItem.propTypes = propTypes;
@@ -123,6 +131,7 @@ ProductItem.propTypes = propTypes;
 
 const mapStateToProps = createStructuredSelector({
   media: makeSelectDataImage(),
+  loaderImage: makeSelectLoaderImage(),
 });
 
 export function mapDispatchToProps(dispatch) {

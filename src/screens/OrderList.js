@@ -14,12 +14,16 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {createStructuredSelector} from 'reselect';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {actionGetListOrder} from '../store/app/appActions';
-import {makeSelectOrderListData} from '../store/app/appSelector';
+import {
+  makeSelectLoaderData,
+  makeSelectOrderListData,
+} from '../store/app/appSelector';
 import OrderListItem from './OrderListItem';
 import {ThemeContext} from '../theme';
 import {SPACING, STORE_ID} from '../constants';
+import LoadingView from '../common/LoadingView/LoadingView';
 
-const OrderList = ({getListOrder, orderListData, navigation}) => {
+const OrderList = ({getListOrder, orderListData, loaderData, navigation}) => {
   const {theme} = useContext(ThemeContext);
   // useEffect(() => {
   //   if(Object.values(orderListData).length === 0) {
@@ -34,22 +38,24 @@ const OrderList = ({getListOrder, orderListData, navigation}) => {
   };
   return (
     <SafeAreaView style={styles.container(theme)}>
-      <View style={styles.container}>
-        {/*<View style={styles.categoryContainer}>*/}
-        <FlatList
-          LisHeaderComponent={
-            <>
-              <Text>List order:</Text>
-            </>
-          }
-          data={orderListData.items}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          ListEmptyComponent={<Text> List Order is empty!</Text>}
-          contentContainerStyle={[styles.flatListConatiner]}
-        />
-        {/*</View>*/}
-      </View>
+      {loaderData ? (
+        <LoadingView />
+      ) : (
+        <View style={styles.container}>
+          <FlatList
+            LisHeaderComponent={
+              <>
+                <Text>List order:</Text>
+              </>
+            }
+            data={orderListData.items}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            ListEmptyComponent={<Text> List Order is empty!</Text>}
+            contentContainerStyle={[styles.flatListConatiner]}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -57,10 +63,12 @@ const OrderList = ({getListOrder, orderListData, navigation}) => {
 OrderList.prototype = {
   getListOrder: PropTypes.func,
   orderListData: PropTypes.object,
+  loaderData: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
   orderListData: makeSelectOrderListData(),
+  loaderData: makeSelectLoaderData(),
 });
 
 export function mapDispatchToProps(dispatch) {
