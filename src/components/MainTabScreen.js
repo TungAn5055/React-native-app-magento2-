@@ -39,17 +39,17 @@ const MainTabScreen = () => (
         ),
       }}
     />
-    <Tab.Screen
-      name="Reload Data"
-      component={OrderList}
-      options={{
-        tabBarLabel: 'Reload Data',
-        tabBarColor: '#FF6347',
-        tabBarIcon: ({color}) => (
-          <Ionicons name="md-clouddownloado" size={26} color={color} />
-        ),
-      }}
-    />
+    {/*<Tab.Screen*/}
+    {/*  name="Reload Data"*/}
+    {/*  component={OrderList}*/}
+    {/*  options={{*/}
+    {/*    tabBarLabel: 'Reload Data',*/}
+    {/*    tabBarColor: '#FF6347',*/}
+    {/*    tabBarIcon: ({color}) => (*/}
+    {/*      <Ionicons name="md-clouddownloado" size={26} color={color} />*/}
+    {/*    ),*/}
+    {/*  }}*/}
+    {/*/>*/}
   </Tab.Navigator>
 );
 

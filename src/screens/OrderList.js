@@ -26,9 +26,14 @@ import LoadingView from '../common/LoadingView/LoadingView';
 const OrderList = ({getListOrder, orderListData, loaderData, navigation}) => {
   const {theme} = useContext(ThemeContext);
   useEffect(() => {
-    console.log('start call!!!!!!!!!!!!!!!!!');
     getListOrder(STORE_ID);
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', (e) => {
+      getListOrder(STORE_ID);
+    });
+  }, [navigation]);
 
   const renderItem = ({item, index}) => {
     return (
