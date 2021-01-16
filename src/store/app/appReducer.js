@@ -12,9 +12,10 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SET_LIST_ORDER:
       console.log('call data done!');
+      state.orderList = action.data;
       return {
         ...state,
-        orderList: action.data,
+        // orderList: action.data,
         loaderData: false,
       };
       break;
