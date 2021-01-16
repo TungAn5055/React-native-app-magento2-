@@ -6,7 +6,7 @@ import {ThemeContext} from '../theme';
 import axios from 'axios';
 import {CONFIGURABLE_TYPE_SK, SPACING} from '../constants';
 import ProductItem from './ProductItem';
-import {Card, Text, Icon, Price, Divider, Button} from '../common';
+import {Card, Text, Icon, Price, Divider, Button, LoadingView} from '../common';
 import {getFormattedDate, isDateValid, stringToDate} from '../utils';
 import {priceSignByCode} from '../utils/price';
 
@@ -18,6 +18,8 @@ const OrderDetails = ({
 }) => {
   const {theme} = useContext(ThemeContext);
   const [orderDetail, setOrderDetail] = useState(order);
+  const [orderDetailLoader, setOrderDetailLoader] = useState(true);
+  const [loader, setOrderLoader] = useState(false);
   const listItemStyle = useMemo(() => styles.listItem(theme), [theme]);
   useEffect(() => {
     if (orderId) {
@@ -31,7 +33,11 @@ const OrderDetails = ({
         .then((res) => {
           if (res.status === 200) {
             setOrderDetail(res.data);
+            setOrderDetailLoader(false);
           }
+        })
+        .catch((err) => {
+          setOrderDetailLoader(false);
         });
     }
   }, [orderId]);
@@ -42,6 +48,7 @@ const OrderDetails = ({
 
   const onClickAccept = () => {
     if (orderId) {
+      setOrderLoader(true);
       const requestURL = `rest/default/V1/order/${orderId}/invoice`;
       axios
         .post(requestURL, {
@@ -54,57 +61,80 @@ const OrderDetails = ({
             navigation.navigate('OrderStatus', {
               message: 'You have successfully confirmed your order!',
             });
+            setOrderLoader(false);
           }
         })
         .catch((error) => {
           if (error) {
             Alert.alert('You Cannot Invoice Order!');
           }
+          setOrderLoader(false);
         });
     }
   };
   const onClickCancel = () => {
-    console.log('onClickCancel');
-    if (orderId) {
-      const requestURL = `/rest/default/V1/orders/${orderId}/cancel`;
-      axios
-        .post(requestURL, {
-          headers: {
-            'Content-Type': 'application/json',
+    Alert.alert(
+      null,
+      'Do you want cancel this order?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            setOrderLoader(true);
+            if (orderId) {
+              const requestURL = `/rest/default/V1/orders/${orderId}/cancel`;
+              axios
+                .post(requestURL, {
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                })
+                .then((res) => {
+                  if (res.status === 200) {
+                    navigation.navigate('OrderStatus', {
+                      message: 'You have successfully canceled your order!',
+                    });
+                  }
+                  setOrderLoader(false);
+                })
+                .catch((error) => {
+                  if (error) {
+                    Alert.alert('You Cannot Cancel Order!');
+                  }
+                  setOrderLoader(false);
+                });
+            }
           },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            navigation.navigate('OrderStatus', {
-              message: 'You have successfully canceled your order!',
-            });
-          }
-        })
-        .catch((error) => {
-          if (error) {
-            Alert.alert('You Cannot Cancel Order!');
-          }
-        });
-    }
+        },
+      ],
+      {cancelable: false},
+    );
   };
   const renderHeader = () => (
     <>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Accept"
-          titleStyle={styles.loginButtonText}
-          style={styles.buttonOk}
-          onPress={onClickAccept}
-        />
-        <Button
-          title="Cancel"
-          titleStyle={styles.loginButtonText}
-          style={styles.buttonCancel}
-          onPress={onClickCancel}
-          icon={{type: 'font-awesome', name: 'facebook'}}
-        />
-      </View>
-
+      {loader ? (
+        <LoadingView />
+      ) : (
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Accept"
+            titleStyle={styles.loginButtonText}
+            style={styles.buttonOk}
+            onPress={onClickAccept}
+          />
+          <Button
+            title="Cancel"
+            titleStyle={styles.loginButtonText}
+            style={styles.buttonCancel}
+            onPress={onClickCancel}
+            icon={{type: 'font-awesome', name: 'facebook'}}
+          />
+        </View>
+      )}
       <Card type="clear" style={styles.headerContainer}>
         <Text>{`Status: ${orderDetail.status}`}</Text>
         <Text>{`PlacedOn: ${
@@ -211,20 +241,24 @@ const OrderDetails = ({
   );
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={(orderDetail.items || []).filter(
-          (entity) => entity.product_type !== CONFIGURABLE_TYPE_SK,
-        )}
-        renderItem={({item}) => (
-          <ProductItem
-            item={item}
-            currencySymbol={currencySymbol}
-            containerStyle={listItemStyle}
-          />
-        )}
-        ListHeaderComponent={renderHeader}
-        keyExtractor={(_item) => _item.sku}
-      />
+      {orderDetailLoader ? (
+        <LoadingView />
+      ) : (
+        <FlatList
+          data={(orderDetail.items || []).filter(
+            (entity) => entity.product_type !== CONFIGURABLE_TYPE_SK,
+          )}
+          renderItem={({item}) => (
+            <ProductItem
+              item={item}
+              currencySymbol={currencySymbol}
+              containerStyle={listItemStyle}
+            />
+          )}
+          ListHeaderComponent={renderHeader}
+          keyExtractor={(_item) => _item.sku}
+        />
+      )}
     </SafeAreaView>
   );
 };

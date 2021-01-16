@@ -25,11 +25,10 @@ import LoadingView from '../common/LoadingView/LoadingView';
 
 const OrderList = ({getListOrder, orderListData, loaderData, navigation}) => {
   const {theme} = useContext(ThemeContext);
-  // useEffect(() => {
-  //   if(Object.values(orderListData).length === 0) {
-  //     getListOrder(STORE_ID)
-  //   }
-  // }, []);
+  useEffect(() => {
+    console.log('start call!!!!!!!!!!!!!!!!!');
+    getListOrder(STORE_ID);
+  }, []);
 
   const renderItem = ({item, index}) => {
     return (

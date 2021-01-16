@@ -8,22 +8,19 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {useTheme} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
-import {createStructuredSelector} from 'reselect';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {actionGetListOrder} from '../store/app/appActions';
-import {makeSelectOrderListData} from '../store/app/appSelector';
-import {STORE_ID} from '../constants';
 
-const HomeScreen = ({getListOrder, orderListData, navigation}) => {
+// import {createStructuredSelector} from 'reselect';
+// import PropTypes from 'prop-types';
+// import {actionGetListOrder} from '../store/app/appActions';
+// import {makeSelectOrderListData} from '../store/app/appSelector';
+// import {STORE_ID} from '../constants';
+
+const HomeScreen = ({navigation}) => {
   const theme = useTheme();
-  useEffect(() => {
-    console.log('start call!!!!!!!!!!!!!!!!!');
-    getListOrder(STORE_ID);
-  }, []);
 
   return (
     <ScrollView style={styles.container}>
@@ -74,24 +71,24 @@ const HomeScreen = ({getListOrder, orderListData, navigation}) => {
   );
 };
 
-HomeScreen.prototype = {
-  getListOrder: PropTypes.func,
-  orderListData: PropTypes.object,
-};
+// HomeScreen.prototype = {
+//   getListOrder: PropTypes.func,
+//   orderListData: PropTypes.object,
+// };
+//
+// const mapStateToProps = createStructuredSelector({
+//   orderListData: makeSelectOrderListData(),
+// });
+//
+// export function mapDispatchToProps(dispatch) {
+//   return {
+//     getListOrder: (storeId) => {
+//       dispatch(actionGetListOrder(storeId));
+//     },
+//   };
+// }
 
-const mapStateToProps = createStructuredSelector({
-  orderListData: makeSelectOrderListData(),
-});
-
-export function mapDispatchToProps(dispatch) {
-  return {
-    getListOrder: (storeId) => {
-      dispatch(actionGetListOrder(storeId));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(null, null)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {
