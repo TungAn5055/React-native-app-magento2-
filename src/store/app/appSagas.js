@@ -5,7 +5,11 @@ import {
   SET_DATA_IMAGE,
   GET_DATA_ORDER,
 } from '../../constants';
-import {actionSetListOrder, actionSetProductMedia} from './appActions';
+import {
+  actionSetListOrder,
+  actionSetLoaderImage,
+  actionSetProductMedia,
+} from './appActions';
 import axios from 'axios';
 
 function* getOrderList({storeId}) {
@@ -44,6 +48,7 @@ function* getOrderList({storeId}) {
         });
       });
       yield all(listSku.map((it) => call(getImage, it)));
+      yield put(actionSetLoaderImage(false));
     }
   } catch (e) {
     console.log(e);

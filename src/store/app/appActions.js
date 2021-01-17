@@ -4,6 +4,7 @@ import {
   GET_IMAGE_PRODUCT,
   SET_DATA_IMAGE,
   GET_DATA_ORDER,
+  SET_LOADER_IMAGE,
 } from '../../constants';
 
 export const initializeApp = () => ({});
@@ -24,7 +25,10 @@ export const actionSetProductMedia = (sku, data) => ({
   sku,
   data,
 });
-
+export const actionSetLoaderImage = (status) => ({
+  type: SET_LOADER_IMAGE,
+  status,
+});
 export const actionGetDataOrder = (orderId) => ({
   type: GET_DATA_ORDER,
   orderId,

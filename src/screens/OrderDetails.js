@@ -60,8 +60,11 @@ const OrderDetails = ({
           if (res.status === 200) {
             navigation.navigate('OrderStatus', {
               message: 'You have successfully confirmed your order!',
+              orderDetail: orderDetail,
+              placedOns: isDateValid(placedOns)
+                ? getFormattedDate(placedOns)
+                : placedOn,
             });
-            setOrderLoader(false);
           }
         })
         .catch((error) => {
@@ -97,6 +100,8 @@ const OrderDetails = ({
                   if (res.status === 200) {
                     navigation.navigate('OrderStatus', {
                       message: 'You have successfully canceled your order!',
+                      orderDetail: {},
+                      placedOns: '',
                     });
                   }
                   setOrderLoader(false);

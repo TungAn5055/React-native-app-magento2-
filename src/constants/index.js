@@ -1,4 +1,3 @@
-
 import SPACING from './spacing';
 export * from './actionsTypes';
 export * from './stringsConstants';
@@ -13,6 +12,7 @@ const GET_IMAGE_PRODUCT = 'GET_IMAGE_PRODUCT';
 const SET_DATA_IMAGE = 'SET_DATA_IMAGE';
 const GET_DATA_ORDER = 'GET_DATA_ORDER';
 const SET_DATA_ORDER = 'SET_DATA_ORDER';
+const SET_LOADER_IMAGE = 'SET_LOADER_IMAGE';
 
 export {
   STORE_ID,
@@ -26,4 +26,5 @@ export {
   SET_DATA_IMAGE,
   GET_DATA_ORDER,
   SET_DATA_ORDER,
+  SET_LOADER_IMAGE,
 };

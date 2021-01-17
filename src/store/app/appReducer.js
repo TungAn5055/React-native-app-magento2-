@@ -1,4 +1,9 @@
-import {SET_LIST_ORDER, SET_DATA_IMAGE, SET_DATA_ORDER} from '../../constants';
+import {
+  SET_LIST_ORDER,
+  SET_DATA_IMAGE,
+  SET_DATA_ORDER,
+  SET_LOADER_IMAGE,
+} from '../../constants';
 
 const INITIAL_STATE = {
   orderList: {},
@@ -21,6 +26,12 @@ export default (state = INITIAL_STATE, action) => {
       break;
     case SET_DATA_IMAGE:
       state.dataImage[action.sku] = action.data;
+      return {
+        ...state,
+        // loaderImage: false,
+      };
+      break;
+    case SET_LOADER_IMAGE:
       return {
         ...state,
         loaderImage: false,
