@@ -10,6 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import OrderList from '../screens/OrderList';
 import OrderDetails from '../screens/OrderDetails';
 import OrderStatus from '../screens/OrderStatus';
+import Logout from '../components/Logout';
 
 const HomeStack = createStackNavigator();
 
@@ -41,26 +42,15 @@ const MainTabScreen = () => (
     />
       <Tab.Screen
           name="LogOut"
-          component={OrderList}
+          component={Logout}
           options={{
               tabBarLabel: 'LogOut',
               tabBarColor: '#FF6347',
               tabBarIcon: ({color}) => (
-                  <Ionicons name="ios-restaurant" size={26} color={color} />
+                  <Ionicons name="log-out" size={26} color={color} />
               ),
           }}
       />
-    {/*<Tab.Screen*/}
-    {/*  name="Reload Data"*/}
-    {/*  component={OrderList}*/}
-    {/*  options={{*/}
-    {/*    tabBarLabel: 'Reload Data',*/}
-    {/*    tabBarColor: '#FF6347',*/}
-    {/*    tabBarIcon: ({color}) => (*/}
-    {/*      <Ionicons name="md-clouddownloado" size={26} color={color} />*/}
-    {/*    ),*/}
-    {/*  }}*/}
-    {/*/>*/}
   </Tab.Navigator>
 );
 

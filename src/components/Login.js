@@ -1,69 +1,71 @@
-import React, { useState, useContext, useRef } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, Alert} from 'react-native';
 import { connect } from 'react-redux';
 
 import {
-  Button,
-  Input,
+    Button,
+    Input, LoadingView,
 } from '../common';
-
-import {ThemeContext} from '../theme';
-import { DIMENS, SPACING } from '../constants';
-import {createStackNavigator} from "@react-navigation/stack";
-import {useTheme} from "react-native-paper";
-import HomeScreen from "./HomeScreen";
-import Icon from "react-native-vector-icons/Ionicons";
-
-const HomeStack = createStackNavigator();
+import axios from "axios";
+import AsyncStorage  from '@react-native-community/async-storage';
 
 const Login = ({navigation}) => {
-  const theme = useContext(ThemeContext);
-  const {colors} = useTheme();
   // Internal State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // Reference
-  const passwordInput = useRef();
+  const [loginLoader, setLoginLoader] = useState(false);
 
-
-
-
-  const renderButtons = () => {
-    // if (loading) {
-    //   return <Spinner style={{ marginTop: 30 }} />;
-    // }
-
-    return (
-        <View>
-          <Button
-              disabled={email === '' || password === ''}
-              // onPress={onLoginPress}
-          >
-            {/*{translate('login.loginButton')}*/}
-          </Button>
-        </View>
+  useEffect(() => {
+      clearTokenLogout();
+  }, []);
+  const clearTokenLogout = async () => {
+    const token = await AsyncStorage.getItem(
+        'authen_token',
     );
-  };
-
-  const renderMessages = () => {
-    // if (error) {
-    //   return <Text style={styles.error(theme)}>{error}</Text>;
-    // }
-    //
-    // if (success) {
-    //   return <Text style={styles.success(theme)}>{success}</Text>;
-    // }
-  };
+    if (token !== null) {
+        await AsyncStorage.removeItem(
+            'authen_token'
+        );
+    }
+  }
+  const onClickLogin = async () => {
+        if (email && password) {
+            setLoginLoader(true);
+            const requestURL = `rest/default/V1/integration/admin/token`;
+        await axios.post(requestURL, {
+                    // username: 'an',
+                    // password: 'admin@123'
+                    username: email,
+                    password: password
+                })
+                .then((res) => {
+                    if (res.status === 200) {
+                        console.log('start');
+                        console.log(res.data);
+                        AsyncStorage.setItem(
+                            'authen_token',
+                            res.data
+                        );
+                    }
+                    setLoginLoader(false);
+                    navigation.navigate('MainTabScreen');
+                })
+                .catch((err) => {
+                    setLoginLoader(false);
+                })
+        }
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.logo}>HeyAPP</Text>
+            <Text style={styles.logo}>Mummum Login</Text>
             <View style={styles.inputView} >
                 <TextInput
                     style={styles.inputText}
-                    placeholder="Email..."
+                    placeholder="Name..."
                     placeholderTextColor="#003f5c"
-                    onChangeText={text => this.setState({email:text})}/>
+                    // value={email}
+                    onChangeText={text => setEmail(text)}/>
             </View>
             <View style={styles.inputView} >
                 <TextInput
@@ -71,24 +73,19 @@ const Login = ({navigation}) => {
                     style={styles.inputText}
                     placeholder="Password..."
                     placeholderTextColor="#003f5c"
-                    onChangeText={text => this.setState({password:text})}/>
+                    // value={password}
+                    onChangeText={text => setPassword(text)}/>
             </View>
-            <TouchableOpacity>
-                <Text style={styles.forgot}>Forgot Password?</Text>
-            </TouchableOpacity>
-            <Button
-                title="LOGIN"
-                // titleStyle={styles.loginButtonText}
-                // style={styles.loginText}
-                style={styles.loginBtn}
-                onPress={() => navigation.navigate('MainTabScreen')}
-            />
-
-            <TouchableOpacity>
-                <Text style={styles.loginText}>Signup</Text>
-            </TouchableOpacity>
-
-
+            {loginLoader ? (
+                <LoadingView size='small'/>
+            ) : (
+                <Button
+                    title="LOGIN"
+                    style={styles.loginBtn}
+                    onPress={onClickLogin}
+                />
+            )
+            }
         </View>
     );
 };
@@ -101,7 +98,7 @@ const styles = StyleSheet.create({
     },
     logo:{
         fontWeight:"bold",
-        fontSize:50,
+        fontSize:35,
         color:"#fb5b5a",
         marginBottom:40
     },

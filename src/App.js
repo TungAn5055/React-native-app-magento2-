@@ -14,10 +14,10 @@ import {
 import {Provider as StoreProvider} from 'react-redux';
 import {DrawerContent} from '../src/components/DrawerContent';
 import MainTabScreen from '../src/components/MainTabScreen';
+import Login from '../src/components/Login';
 import {AuthContext} from '../components/context';
 import {ThemeProvider, lightTheme as themes} from './theme';
 import store from './store';
-import Login from "../src/components/Login";
 const Drawer = createDrawerNavigator();
 
 const App = () => {
@@ -42,7 +42,7 @@ const App = () => {
                 drawerContent={(props) => <DrawerContent {...props} />}>
                 {/*<Drawer.Screen name="HomeDrawer" component={MainTabScreen} />*/}
                 <Drawer.Screen name="LoginDrawer" component={Login} />
-                <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
+                <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
               </Drawer.Navigator>
             </NavigationContainer>
           </AuthContext.Provider>
