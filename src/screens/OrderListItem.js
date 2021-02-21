@@ -50,7 +50,7 @@ const OrderList = ({item, index, navigation}) => {
               type="subheading"
               bold
               style={{color: '#FF6600', textDecorationLine: 'underline'}}>
-              {item.increment_id}
+              {`#${item.increment_id}`}
             </Text>
           </Text>
         </View>

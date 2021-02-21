@@ -7,7 +7,7 @@ import {Button, Card, Divider, Icon, Price, Text} from '../common';
 import {getFormattedDate, isDateValid} from '../utils';
 import {priceSignByCode} from '../utils/price';
 import {ThemeContext} from '../theme';
-import ProductItem from './ProductItem';
+import ProductItemPrint from './ProductItemPrint';
 
 const OrderStatus = ({
   navigation,
@@ -25,113 +25,119 @@ const OrderStatus = ({
   const renderHeader = () => (
     <>
       {Object.values(orderDetail).length > 0 ? (
-        <Card type="clear" style={styles.headerContainer}>
-          <Text>{'Status: Complete'}</Text>
-          <Text>{`PlacedOn: ${
-            isDateValid(placedOns) ? getFormattedDate(placedOns) : placedOns
-          }`}</Text>
-          <View style={styles.row}>
-            <Text>{'SubTotal: '}</Text>
-            <Price
-              basePrice={orderDetail.subtotal}
-              currencySymbol={
-                priceSignByCode(orderDetail.order_currency_code) || '$'
-              }
-              currencyRate={1}
-            />
-          </View>
-          <View style={styles.row}>
-            <Text>{'ShippingAndHandling: '}</Text>
-            <Price
-              basePrice={orderDetail.shipping_amount}
-              currencySymbol={
-                priceSignByCode(orderDetail.order_currency_code) || '$'
-              }
-              currencyRate={1}
-            />
-          </View>
-          <View style={styles.row}>
-            <Text>{'Discount: - '}</Text>
-            <Price
-              basePrice={Math.abs(orderDetail.discount_amount)}
-              currencySymbol={
-                priceSignByCode(orderDetail.order_currency_code) || '$'
-              }
-              currencyRate={1}
-            />
-          </View>
-          <View style={styles.row}>
-            <Text>{'GrandTotal: '}</Text>
-            <Price
-              basePrice={orderDetail.total_due}
-              currencySymbol={
-                priceSignByCode(orderDetail.order_currency_code) || '$'
-              }
-              currencyRate={1}
-            />
-          </View>
-          <Divider style={styles.divider} />
-          <Text style={styles.label} type="label">
-            UpdatesSentOn
-          </Text>
-          <View style={styles.row}>
-            <Icon
-              name="phone"
-              type="antdesign"
-              size={14}
-              color={theme.successColor}
-              style={styles.iconStyle}
-            />
-            <Text>
+        <>
+          <Card type="clear" style={styles.headerContainer}>
+            {/*<Text>{'Status: Complete'}</Text>*/}
+            <Text>{`Order: #${orderDetail.increment_id}`}</Text>
+            <View style={styles.row}>
+              <Text>{'GrandTotal: '}</Text>
+              <Price
+                basePrice={orderDetail.total_due}
+                currencySymbol={
+                  priceSignByCode(orderDetail.order_currency_code) || '$'
+                }
+                currencyRate={1}
+              />
+            </View>
+            {/*<View style={styles.row}>*/}
+            {/*  <Text>{'SubTotal: '}</Text>*/}
+            {/*  <Price*/}
+            {/*    basePrice={orderDetail.subtotal}*/}
+            {/*    currencySymbol={*/}
+            {/*      priceSignByCode(orderDetail.order_currency_code) || '$'*/}
+            {/*    }*/}
+            {/*    currencyRate={1}*/}
+            {/*  />*/}
+            {/*</View>*/}
+            <View style={styles.row}>
+              <Text>{'ShippingAndHandling: '}</Text>
+              <Price
+                basePrice={orderDetail.shipping_amount}
+                currencySymbol={
+                  priceSignByCode(orderDetail.order_currency_code) || '$'
+                }
+                currencyRate={1}
+              />
+            </View>
+            <View style={styles.row}>
+              <Text>{'Discount: - '}</Text>
+              <Price
+                basePrice={Math.abs(orderDetail.discount_amount)}
+                currencySymbol={
+                  priceSignByCode(orderDetail.order_currency_code) || '$'
+                }
+                currencyRate={1}
+              />
+            </View>
+            <Text>{`PlacedOn: ${
+              isDateValid(placedOns) ? getFormattedDate(placedOns) : placedOns
+            }`}</Text>
+            <Divider style={styles.divider} />
+            <Text style={styles.label} type="label">
+              UpdatesSentOn
+            </Text>
+            <View style={styles.row}>
+              <Icon
+                name="phone"
+                type="antdesign"
+                size={14}
+                color={theme.successColor}
+                style={styles.iconStyle}
+              />
+              <Text>
+                {orderDetail.billing_address &&
+                orderDetail.billing_address.telephone
+                  ? orderDetail.billing_address.telephone
+                  : ''}
+              </Text>
+            </View>
+            <View style={styles.row}>
+              <Icon
+                name="email"
+                type="fontisto"
+                size={14}
+                color={theme.errorColor}
+                style={styles.iconStyle}
+              />
+              <Text>
+                {orderDetail.billing_address &&
+                orderDetail.billing_address.email
+                  ? orderDetail.billing_address.email
+                  : ''}
+              </Text>
+            </View>
+            <Divider style={styles.divider} />
+            <Text style={styles.label} type="label">
+              BillingAndShippingAddress
+            </Text>
+            <Text bold>
+              {' '}
               {orderDetail.billing_address &&
-              orderDetail.billing_address.telephone
-                ? orderDetail.billing_address.telephone
+              orderDetail.billing_address.firstname &&
+              orderDetail.billing_address.lastname
+                ? `${orderDetail.billing_address.firstname} ${
+                    orderDetail.billing_address.lastname || ''
+                  }`
                 : ''}
             </Text>
-          </View>
-          <View style={styles.row}>
-            <Icon
-              name="email"
-              type="fontisto"
-              size={14}
-              color={theme.errorColor}
-              style={styles.iconStyle}
-            />
             <Text>
-              {orderDetail.billing_address && orderDetail.billing_address.email
-                ? orderDetail.billing_address.email
+              {orderDetail.billing_address && orderDetail.billing_address.street
+                ? orderDetail.billing_address.street.reduce(
+                    (total, part) => `${total}${part}, `,
+                    '',
+                  )
+                : ''}
+              {orderDetail.billing_address && orderDetail.billing_address.city
+                ? orderDetail.billing_address.region
+                : ''}
+              {orderDetail.billing_address &&
+              orderDetail.billing_address.postcode
+                ? `- ${orderDetail.billing_address.postcode}`
                 : ''}
             </Text>
-          </View>
-          <Divider style={styles.divider} />
-          <Text style={styles.label} type="label">
-            BillingAndShippingAddress
-          </Text>
-          <Text bold>
-            {' '}
-            {orderDetail.billing_address &&
-            orderDetail.billing_address.firstname &&
-            orderDetail.billing_address.lastname
-              ? `${orderDetail.billing_address.firstname} ${
-                  orderDetail.billing_address.lastname || ''
-                }`
-              : ''}
-          </Text>
-          <Text>
-            {orderDetail.billing_address && orderDetail.billing_address.street
-              ? orderDetail.billing_address.street.reduce(
-                  (total, part) => `${total}${part}, `,
-                  '',
-                )
-              : ''}
-            {orderDetail.billing_address && orderDetail.billing_address.city
-              ? orderDetail.billing_address.region
-              : ''}
-            {orderDetail.billing_address && orderDetail.billing_address.postcode
-              ? `- ${orderDetail.billing_address.postcode}`
-              : ''}
-          </Text>
-        </Card>
+          </Card>
+          <Text style={styles.titleItems}>### Items ###</Text>
+        </>
       ) : (
         <></>
       )}
@@ -146,13 +152,16 @@ const OrderStatus = ({
             (entity) => entity.product_type !== CONFIGURABLE_TYPE_SK,
           )}
           renderItem={({item}) => (
-            <ProductItem
-              item={item}
-              currencySymbol={
-                priceSignByCode(orderDetail.order_currency_code) || '$'
-              }
-              containerStyle={listItemStyle}
-            />
+            <>
+              <Divider style={styles.divider} />
+              <ProductItemPrint
+                item={item}
+                currencySymbol={
+                  priceSignByCode(orderDetail.order_currency_code) || '$'
+                }
+                containerStyle={listItemStyle}
+              />
+            </>
           )}
           ListHeaderComponent={renderHeader}
           keyExtractor={(_item) => _item.sku}
@@ -229,4 +238,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: theme.borderColor,
   }),
+  titleItems: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
 });

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {View, StyleSheet, ViewPropTypes, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Text, Price} from '../common';
+import {Text, Price, Divider, Card} from '../common';
 import {isObject} from '../utils';
 import {DIMENS, SPACING} from '../constants';
 import {createStructuredSelector} from 'reselect';
@@ -16,26 +16,8 @@ import {magentoOptions} from '../config/magento';
 import LoadingView from '../common/LoadingView/LoadingView';
 
 // TODO: Fetch Media of each product and show image
-const ProductItem = ({
-  item: product,
-  loaderImage,
-  media,
-  currencySymbol = '$',
-  // containerStyle,
-  getProductMedia,
-}) => {
+const ProductItemPrint = ({item: product, currencySymbol = '$'}) => {
   let {name, price, row_total: rowTotal} = product;
-  useEffect(() => {
-    if (!media[product.sku]) {
-      getProductMedia(product.sku);
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   console.log(
-  //     `${magentoOptions.url}${magentoOptions.media_base}${media[product.sku]}`,
-  //   );
-  // }, [media]);
 
   if (isObject(product.parent_item)) {
     name = product.parent_item.name || name;
@@ -47,24 +29,9 @@ const ProductItem = ({
 
   return (
     <View style={[styles.card]}>
-      {loaderImage ? (
-        <LoadingView />
-      ) : (
-        <Image
-          style={styles.imageStyle}
-          source={{
-            uri:
-              media && Object.values(media).length > 0 && media[product.sku]
-                ? `${magentoOptions.url}${magentoOptions.media_base}${
-                    media[product.sku]
-                  }`
-                : 'https://vietship.de/media/logo.png',
-          }}
-        />
-      )}
       <View style={styles.detailContainer}>
         <Text bold>{name}</Text>
-        <Text>Sku: {product.sku}</Text>
+        {/*<Text>Sku: {product.sku}</Text>*/}
         <Text>
           Quantity:{' '}
           <Text bold style={styles.row}>
@@ -97,7 +64,8 @@ const ProductItem = ({
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    padding: SPACING.small,
+    // padding: SPACING.small,
+    paddingLeft: 15,
   },
   imageStyle: {
     resizeMode: 'cover',
@@ -121,31 +89,13 @@ const propTypes = {
     parent_item: PropTypes.shape({
       name: PropTypes.string,
       price: PropTypes.number,
-      row_total: PropTypes.nuymber,
+      row_total: PropTypes.number,
     }),
   }).isRequired,
-  media: PropTypes.any,
-  getProductMedia: PropTypes.func,
   currencySymbol: PropTypes.string.isRequired,
   containerStyle: ViewPropTypes.style,
-  loaderImage: PropTypes.bool,
 };
 
-ProductItem.propTypes = propTypes;
+ProductItemPrint.propTypes = propTypes;
 
-// ProductItem.defaultProps = defaultProps;
-
-const mapStateToProps = createStructuredSelector({
-  media: makeSelectDataImage(),
-  loaderImage: makeSelectLoaderImage(),
-});
-
-export function mapDispatchToProps(dispatch) {
-  return {
-    getProductMedia: (sku) => {
-      dispatch(actionGetProductMedia(sku));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductItem);
+export default connect(null, null)(ProductItemPrint);
