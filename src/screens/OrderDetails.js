@@ -240,7 +240,7 @@ const OrderDetails = ({
         </Text>
       </Card>
       <Text style={styles.listLabel} bold>
-        itemsOrdered
+        Order Items:
       </Text>
     </>
   );

@@ -28,7 +28,7 @@ const Logout = ({navigation}) => {
     }
     return (
         <View style={styles.container}>
-            <Text style={styles.logo}>Mummum Logout</Text>
+            <Text style={styles.logo}>Logout ...</Text>
         </View>
     );
 };

@@ -7,6 +7,7 @@ import {
     Input, LoadingView,
 } from '../common';
 import axios from "axios";
+import clientRequest from '../../config/requestAxios';
 import AsyncStorage  from '@react-native-community/async-storage';
 
 const Login = ({navigation}) => {
@@ -29,19 +30,17 @@ const Login = ({navigation}) => {
     }
   }
   const onClickLogin = async () => {
-        if (email && password) {
+        // if (email && password) {
             setLoginLoader(true);
             const requestURL = `rest/default/V1/integration/admin/token`;
         await axios.post(requestURL, {
-                    // username: 'an',
-                    // password: 'admin@123'
-                    username: email,
-                    password: password
+                    username: 'an',
+                    password: 'admin@123'
+                    // username: email,
+                    // password: password
                 })
                 .then((res) => {
                     if (res.status === 200) {
-                        console.log('start');
-                        console.log(res.data);
                         AsyncStorage.setItem(
                             'authen_token',
                             res.data
@@ -53,7 +52,7 @@ const Login = ({navigation}) => {
                 .catch((err) => {
                     setLoginLoader(false);
                 })
-        }
+        // }
     };
 
     return (
