@@ -39,6 +39,17 @@ const MainTabScreen = () => (
         ),
       }}
     />
+      <Tab.Screen
+          name="LogOut"
+          component={OrderList}
+          options={{
+              tabBarLabel: 'LogOut',
+              tabBarColor: '#FF6347',
+              tabBarIcon: ({color}) => (
+                  <Ionicons name="ios-restaurant" size={26} color={color} />
+              ),
+          }}
+      />
     {/*<Tab.Screen*/}
     {/*  name="Reload Data"*/}
     {/*  component={OrderList}*/}

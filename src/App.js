@@ -17,6 +17,7 @@ import MainTabScreen from '../src/components/MainTabScreen';
 import {AuthContext} from '../components/context';
 import {ThemeProvider, lightTheme as themes} from './theme';
 import store from './store';
+import Login from "../src/components/Login";
 const Drawer = createDrawerNavigator();
 
 const App = () => {
@@ -39,6 +40,8 @@ const App = () => {
             <NavigationContainer theme={theme}>
               <Drawer.Navigator
                 drawerContent={(props) => <DrawerContent {...props} />}>
+                {/*<Drawer.Screen name="HomeDrawer" component={MainTabScreen} />*/}
+                <Drawer.Screen name="LoginDrawer" component={Login} />
                 <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
               </Drawer.Navigator>
             </NavigationContainer>
